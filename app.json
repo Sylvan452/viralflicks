@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "viralflicks",
+    "scheme": "viralflicks",
     "slug": "viralflicks",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,11 +21,15 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "package": "com.sylva.viralflicks"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
