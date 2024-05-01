@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from '../../constants';
 import FormField from '../../components/FormField';
 import CustomButton from '../../components/CustomButton';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { createUser } from '../../lib/appwrite';
 
 const signUp = () => {
@@ -15,19 +15,21 @@ const signUp = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submit =async () => {
-    if(!form.username || !form.email || !form.password) {
-      Alert.alert('Error', 'Please fill in all the fields')
+  const submit = async () => {
+    if (!form.username || !form.email || !form.password) {
+      Alert.alert('Error', 'Please fill in all the fields');
     }
-    isSubmitting(true);
+    setIsSubmitting(true);
     try {
-      const result = await createUser(form.email, form.password, form.username)
+      const result = await createUser(form.email, form.password, form.username);
+      //global state
+
+      router.replace('/home');
     } catch (error) {
-      Alert.alert('Error', error.message)
+      Alert.alert('Error', error.message);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-    createUser();
   };
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -44,7 +46,7 @@ const signUp = () => {
           <FormField
             title="Username"
             value={form.username}
-            handleChangeText={(e) => setForm({ ...form, email: e })}
+            handleChangeText={(e) => setForm({ ...form, username: e })}
             otherStyles="mt-10"
           />
           <FormField

@@ -1,12 +1,20 @@
-import { ScrollView, Text, View, Image, TouchableOpacity } from 'react-native';
+import {
+  ScrollView,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from '../../constants';
 import FormField from '../../components/FormField';
 import CustomButton from '../../components/CustomButton';
-import { Link, useNavigation } from 'expo-router';
+import { Link, useNavigation, router } from 'expo-router';
+import { signIn } from '../../lib/appwrite';
 
-const signIn = () => {
+const SignIn = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -18,7 +26,22 @@ const signIn = () => {
     navigation.push('index');
   };
 
-  const submit = () => {};
+  const submit = async () => {
+    if (!form.email || !form.password) {
+      Alert.alert('Error', 'Please fill in all the fields');
+    }
+    setIsSubmitting(true);
+    try {
+      await signIn(form.email, form.password);
+      //global state
+
+      router.replace('/home');
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView>
@@ -69,4 +92,4 @@ const signIn = () => {
   );
 };
 
-export default signIn;
+export default SignIn;
